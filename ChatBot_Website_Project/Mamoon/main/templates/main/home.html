@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Ma'moon Chatbot {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+{% if request.user == user %}
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex w-100 hero"> 
+        <div class="row row-cols-1 row-cols-lg-2 g-5">
+            <div class="col left-hero">
+                <h4 class="text-center" style="line-height: 1.8;">
+                    <!-- The  -->
+                    <span style="color: #ffbb00;">
+                        <!-- FitnessTracker -->
+
+                    </span>  
+                    <!-- is designed to help gym enthusiasts log and manage their fitness routines.
+                     This system simplifies workout tracking by offering features for creating reusable workout templates,
+                      logging workout sessions, and organizing exercises with detailed instructions -->
+                </h4>
+            </div>
+            <div class="col right-hero">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <h2 class="text-center">
+                        <!-- Start creating reusable routines of workouts! -->
+                    </h2>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'routines:new_routine_view' %}" class="btn btn-warning pe-4 ps-4 mt-3">
+                            <h5>Start New Routine</h5>
+                        </a>
+                        <!-- <a href="{% url 'accounts:sign_up' %}" class="btn btn-light pe-5 ps-5 mt-5">
+                            <h5>Watch Demo</h5>
+                        </a> -->
+                    {% else %}
+                        <!-- <a href="{% url 'accounts:sign_up' %}" class="btn btn-warning pe-5 ps-5 mt-3">
+                            <h5>Sign Up Now</h5>
+                        </a> -->
+                        <!-- <a href="{% url 'accounts:sign_up' %}" class="btn btn-light pe-5 ps-5 mt-5">
+                            <h5>Watch Demo</h5>
+                        </a> -->
+`                   {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if request.user.is_authenticated %}
+        <div class="line mt-5 mb-5"></div>
+
+        <div class="d-flex flex-column align-items-center">
+            <h1>
+                Explore Other Routines
+            </h1> 
+        </div>
+        
+        {% include 'routines/explore_routines.html' %}
+
+    {% endif %}
+</div>
+
+<div class="line mt-5 mb-5"></div>
+
+{% endif %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex flex-column align-items-center">
+        <h1>
+            <!-- Top Exercises -->
+         </h1> 
+    </div>
+    
+    <!-- {%  -->
+        <!-- include 'exercises/exercises_list.html'  -->
+        <!-- %}     -->
+
+</div>
+
+
+{% endblock %}

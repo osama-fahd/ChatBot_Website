@@ -1,0 +1,79 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Add/Update Exercise {% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12 col-sm-10 col-lg-5">
+            <form class="d-flex flex-column gap-4" action="{% url 'exercises:new_exercise_view'%}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            
+
+                <div class="transparent-bg">
+                    <h2>Add Exercise</h2>
+                    <div class="d-flex flex-column gap-3 border p-3 rounded">
+                        <div class="d-flex flex-column gap-1">
+                            <label for="name">Exercise Name</label>
+                            <input type="text" name="name" id="name" class="form-control"  required>
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description" class="form-control"></textarea>
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                            <label for="image">Image</label>
+                            <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                            <label for="video_link">Video Link</label>
+                            <input type="url" name="video_link" id="video_link" class="form-control" >
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                            <label for="video">Video File</label>
+                            <input type="file" name="video" id="video" class="form-control" accept="video/*">
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                            <label for="workout_category">Workout Category</label>
+                            <select name="workout_category" id="workout_category" class="form-control" required>
+                                {% for value, label in exercise.WorkoutCategory.choices %}
+                                    <option value="{{ value }}" >{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                            <label for="equipment_category">Equipment Category</label>
+                            <select name="equipment_category" id="equipment_category" class="form-control" required>
+                                {% for value, label in exercise.EquipmentCategory.choices %}
+                                    <option value="{{ value }}" >{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                            <label for="exercise_category">Exercise Category</label>
+                            <select name="exercise_category" id="exercise_category" class="form-control" required>
+                                {% for value, label in exercise.ExerciseCategory.choices %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <input type="submit" value="Add Exercise" class="btn form-control" style="background-color: #fcd15c; color: black"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

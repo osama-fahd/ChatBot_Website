@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block title %} All Exercises {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="transparent-bg d-flex flex-column flex-lg-row justify-content-center align-items-center justify-content-lg-between align-items-lg-center gap-sm-2 gap-md-3 col-lg-8">
+        <h1>
+            All Exercises
+        </h1>
+
+        <form class="d-flex" role="search" method="get" action="{% url 'exercises:search_exercises_view' %}">
+            <div class="d-flex flex-row justify-content-center align-items-center gap-3">
+                <input  class="form-control me-2" type="search" placeholder="Search For Exercise" aria-label="Search" name="search"  required minlength="3">
+    
+                <select name="filter_workout_category " class="form-select">
+                    <option >Filter by Workout Category</option>
+                    {% for value, display in workout_categories %}
+                        <option value="{{value}}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="submit" value="apply" class="btn btn-outline-success"/>
+            </div>
+        </form>
+    </div>
+    
+    {% include 'exercises/exercises_list.html' %}    
+
+</div>
+    
+
+<div class="line mt-5"></div>
+
+<div class="pagination d-flex justify-content-center align-items-center gap-4">
+    {% if exercises.has_previous %}
+        <div class="d-flex gap-1">
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ exercises.previous_page_number }}">&laquo; previous</a>
+        </div>
+    {% endif %}
+
+    <div class="">
+        Page {{ exercises.number }} of {{ exercises.paginator.num_pages }}
+    </div>
+
+    {% if exercises.has_next %}
+        <div class="d-flex gap-4 ">
+            <a href="?page={{ exercises.next_page_number }}">next &raquo;</a>
+            <a href="?page={{ exercises.paginator.num_pages }}">last &raquo;</a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

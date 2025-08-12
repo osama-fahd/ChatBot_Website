@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+
+{% block title %} All Routines {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="transparent-bg d-flex flex-column flex-lg-row justify-content-center align-items-center justify-content-lg-between align-items-lg-center gap-sm-2 gap-md-3 col-lg-8">
+        <div  class="d-flex flex-row justify-content-between align-items-center gap-5">
+            <h1>
+                Search Results ({{routines.count}})
+            </h1>
+            <h2 class="">
+                 Results for: {{request.GET.search}}
+            </h2> 
+        </div>
+
+        <form class="d-flex" role="search" method="get" action="{% url 'routines:search_routines_view' %}">
+            <div class="d-flex flex-row justify-content-center align-items-center gap-3">
+                <input  class="form-control me-2" type="search" placeholder="Search For Routine" aria-label="Search" name="search"  required minlength="3">
+
+
+                <input type="submit" value="apply" class="btn btn-outline-success"/>
+            </div>
+        </form>
+    </div>
+    
+    {% include 'routines/routines_list.html' %}
+</div>
+    
+
+<div class="line mt-5"></div>
+
+{% endblock %}

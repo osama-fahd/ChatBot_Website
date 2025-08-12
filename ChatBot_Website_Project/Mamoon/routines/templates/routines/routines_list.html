@@ -1,0 +1,41 @@
+
+<div class="container">
+    <div class="row mt-2 row-cols-1 row-cols-sm-1 row-cols-lg-2 g-5">
+        {% if request.user.is_authenticated %}
+            {% if request.user == user %}
+                {% for routine in routines %}
+                    <div class="col">
+                        <div class="d-flex flex-column justify-content-start align-items-start h-100 p-4 gap-2 routine_card">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <a href="{% url 'routines:routine_detail_view' routine.id %}">
+                                    <h2>{{routine.name}} </h2>
+                                </a>
+                                <h5>{{routine.workout_set.all.count}} Workouts</h5>
+                            </div>
+                            <div class="line"></div>
+                            <h3 class="">Exercises</h3>
+                            <ol class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-between w-100">
+                                {% for workout in routine.workout_set.all %}
+                                    <li class="col-12">
+                                        <p>{{workout.exercise.name}}</p>
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                {% empty %}
+                <div class="col">
+                    <div class="d-flex flex-column justify-content-center align-items-center h-100 p-4 gap-2 routine_card">
+                        <h3>You have not added any routines yet!</h3>
+                        <a href="{% url 'routines:new_routine_view'%}">
+                            <button type="button" class="btn btn-warning btn-lg">
+                                Add your first routine!
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+  </div>

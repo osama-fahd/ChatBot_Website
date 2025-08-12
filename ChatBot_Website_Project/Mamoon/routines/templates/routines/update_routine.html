@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Update Routine {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="d-flex flex-column justify-content-center align-items-center justify-content-lg-start align-items-lg-start">
+    <h1 class="align-self-center align-self-lg-start mb-5">
+        Update Your Workout Routine
+    </h1> 
+
+    <div class="row justify-content-center justify-content-lg-start w-100">
+        <div class="col-12 col-sm-10 col-lg-5">
+            <form class="d-flex flex-column gap-4" action="{% url 'routines:update_routine_view' routine.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="d-flex flex-column gap-1" style="width: 100%;">
+                    <h2 class="">Routine Title</h2>
+                    <input type="text" name="name" placeholder="e.g., Chest Day" class="form-control" value="{{ routine.name }}"/>
+                </div>
+
+                <h2 class="">Do you want to make the routine public?</h2>
+                <div class="d-flex gap-2">
+                    <div class="d-flex flex-column gap-1" style="width: 100%;">
+                        <label for="is_public_yes">YES</label>
+                        <input type="radio" name="is_public" id="is_public_yes" value="1" class="form-control" {% if routine.is_public %} checked {% endif %}>
+                    </div>
+                    <div class="d-flex flex-column gap-1" style="width: 100%;">
+                        <label for="is_public_no">NO</label>
+                        <input type="radio" name="is_public" id="is_public_no" value="0" class="form-control" {% if not routine.is_public %} checked {% endif %}>
+                    </div>
+                </div>
+
+                <input type="submit" value="Update Routine" class="btn form-control" style="background-color: #fcd15c; color: black"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

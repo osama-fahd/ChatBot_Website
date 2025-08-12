@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block title %} {{exercise.name}} Details {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex flex-column align-items-center">
+        <h1>
+             {{exercise.name}} Exercise
+         </h1> 
+    </div>
+
+    {% if request.user.is_authenticated %}
+        <div class="col-12 col-lg-6 d-flex flex-column align-items-center mt-5">
+            <img src="{{exercise.image.url}}" class="rounded-top-5 overflow-hidden" style=" object-fit: cover;"/>
+            <div class="line"></div>
+        </div>
+
+        <div class="mt-5 d-flex flex-column justify-content-start align-items-start col-12 col-lg-6 routine_card exercise_card p-4">
+            <h2>How To Do It:</h2>
+            <div class="line mb-4"></div>
+
+            <ol>
+                {% for step in exercise.step_set.all %}
+                    <h4 class="mb-5">
+                        <li>
+                            {{step.instruction}}
+                        </li>
+                    </h4>
+                {% endfor %}
+            </ol>
+        </div>
+    {% else %}
+        <div class="mt-5 transparent-bg d-flex flex-column  justify-content-center align-items-center gap-sm-2 gap-md-3 col-lg-4">
+            <h4 class="text-white">
+                Sorry only registers users can view exercise details!
+            </h4>
+            <h4 class="d-flex justify-content-between col-6">
+                <a href="{% url 'accounts:sign_in' %}?next={{request.path}}">
+                     <i class="bi bi-box-arrow-in-right"></i> Sign in
+                </a>
+                <a href="{% url 'accounts:sign_up' %}">
+                    Sign up <i class="bi bi-box-arrow-in-left"></i>
+                </a>
+            </h4>
+        </div>
+    {% endif %}
+
+</div>
+    
+
+<div class="line mt-5"></div>
+
+
+{% endblock %}

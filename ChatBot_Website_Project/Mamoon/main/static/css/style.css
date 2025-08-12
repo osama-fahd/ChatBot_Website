@@ -1,0 +1,160 @@
+body {
+
+    background-color: #43FFAE;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 4.5rem;
+    color: #43FFAE;
+}
+
+h1, h2 {
+    word-spacing: 4px;
+}
+
+main {
+    min-height: 100vh;
+    background-image: url('/static/images/Cover.png');
+    background-size: cover;
+    background-position:center;
+    background-repeat: repeat-y;
+}
+
+main {
+    color: #43FFAE;
+}
+
+main a{
+    color: #43FFAE;
+}
+
+footer a{
+    color: #002093;
+}
+
+
+.transparent-bg {
+    background-color: rgba(83, 83, 83, 0.3); 
+    border-radius: 8px;
+    padding: 20px; 
+    backdrop-filter: blur(2px); 
+}
+
+.table {
+    border-radius: 0.5rem; 
+    overflow: hidden;
+}
+
+.label-bg {
+    background-color: #ffce4790; 
+    border-radius: 8px;
+    padding: 10px; 
+    margin: 10px;
+    backdrop-filter: blur(2px); 
+}
+
+.routine_card {
+    background-color: rgba(102, 102, 102, 0.3); 
+    backdrop-filter: blur(6px); 
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out, border 0.5s ease-in-out, backdrop-filter 0.5s ease-in-out, background-color 0.5 ease-in-out;
+}
+
+.routine_card:hover {
+    transform: scale(1.03); 
+    box-shadow: 9px 9px #ffffffaf;
+    border: 6px solid #ffffff;
+    background-color: rgba(83, 83, 83, 0.143); 
+    backdrop-filter: blur(2px); 
+}
+
+.line {
+    width: 100%; 
+    height: 5px; 
+    background-color: #ffffff; 
+    margin: 20px 0;
+    margin-bottom: 10px;
+}
+
+.routine_card h2{
+    font-size: 2.5rem;
+    color: #ffbb00;
+    transition: transform 0.3s ease;
+}
+
+.routine_card h2:hover {
+    transform: scale(1.03);
+    color: #ffcf4c;
+}
+
+.routine_card p{
+    font-size: 1.2rem;
+    
+}
+
+.routine_card {
+    color: #ffde82;
+}
+
+.exercise_card {
+    background-color: rgba(83, 83, 83, 0.143); 
+    backdrop-filter: blur(4px); 
+    transition: border 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out, background-color 0.3 ease-in-out;
+}
+
+.exercise_card:hover {
+    background-color: rgba(102, 102, 102, 0.3); 
+    backdrop-filter: blur(2px); 
+}
+
+.hero {
+    position: relative;
+    background-image: url('/static/images/Horizontal_White Text.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    padding-left: 2rem;
+    /* border-radius: 1rem; */
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background-color: rgba(0, 0, 0, 0.466);  */
+    z-index: 1; 
+    /* border-radius: 1rem; */
+}
+
+.right-hero {
+    z-index: 2;
+}
+
+.right-hero h2 {
+    font-size: 3rem;
+}
+
+.left-hero{
+    color: #ffde82;
+    z-index: 2;
+}
+
+@media (max-width: 992px) {
+
+    main {
+        background-size: contain;
+        background-repeat:repeat-y;
+    }
+
+
+}
+

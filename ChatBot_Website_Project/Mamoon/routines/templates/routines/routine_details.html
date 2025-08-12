@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% block title %} {{routine.name}} Details {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex flex-column align-items-center">
+        <h1>
+             {{routine.name}} Workouts
+         </h1> 
+    </div>
+
+    
+    {% include 'workouts/workouts_list.html' %}
+</div>
+    
+
+<div class="line mt-3"></div>
+
+
+{% endblock %}

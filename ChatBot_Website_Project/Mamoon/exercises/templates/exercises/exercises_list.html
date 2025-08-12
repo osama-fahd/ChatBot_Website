@@ -1,0 +1,29 @@
+
+<div class="container">
+    <div class="row mt-2 row-cols-1 row-cols-sm-1 row-cols-lg-2 g-5">
+        {% for exercise in exercises %}
+            <div class="col">
+                <div class="d-flex flex-column justify-content-start align-items-start h-100 p-4 gap-2 routine_card">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="d-flex justify-content-start align-items-center gap-3 w-100">
+                            <img src="{{exercise.image.url}}" class="rounded-circle overflow-hidden" style="width: 80px; height: 80px; object-fit: cover;"/>
+                            <a href="{% url 'exercises:exercise_detail_view' exercise.id %}">
+                                <h2>{{exercise.name}}</h2>
+                            </a>
+                        </div>
+                        <h4 class="">({{exercise.equipment_category}})</h4>
+                    </div>
+                    <div class="line"></div>
+                    <ul style="list-style-type: square;">
+                        <li class="mb-4">
+                            <h4>This Exercise Considered {{exercise.get_workout_category_display }}</h4>
+                        </li>
+                        <li>
+                            <h4 class="">It Has {{exercise.step_set.all.count}} Guide Instructions</h4>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+  </div>
