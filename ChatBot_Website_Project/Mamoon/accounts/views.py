@@ -18,27 +18,37 @@ def sign_up(request: HttpRequest):
     if request.method == "POST":
 
         try:
-            new_user = User.objects.create_user(username=request.POST["username"],password=request.POST["password"],email=request.POST["email"], first_name=request.POST["first_name"], last_name=request.POST["last_name"])
-            new_user.save()
+            new_user = User.objects.create_user(
+                username=request.POST["username"],
+                password=request.POST["password"],
+                email=request.POST["email"],
+                first_name=request.POST["first_name"],
+                last_name=request.POST["last_name"]
+            )
+            # .create_user() already saves, so new_user.save() is not needed.
+
+            # >> ADD THIS LINE TO CALL YOUR FUNCTION <<
+            create_rocketchat_contact(new_user)
+
             messages.success(request, "You'r Registered Successfuly!", "alert-success")
             return redirect("accounts:sign_in")
         except Exception as e:
             print(e)
+            messages.error(request, "Registration failed. The username may already exist.", "alert-danger")
 
     return render(request, "accounts/signup.html")
 
-# In accounts/views.py
+# in accounts/views.py
 
 def create_rocketchat_contact(user: User):
     """
-    Searches for a Rocket.Chat contact by email and creates one if it doesn't exist,
-    including the Django username as a custom field.
+    Searches for a Rocket.Chat contact by the custom field 'djangoUsername'
+    and creates one if it doesn't exist.
     """
     if not hasattr(settings, 'ROCKETCHAT_API_URL'):
         print("Rocket.Chat settings not configured in Django.")
         return
 
-    # (The search logic remains the same...)
     search_url = f"{settings.ROCKETCHAT_API_URL}/api/v1/omnichannel/contact.search"
     headers = {
         'X-Auth-Token': settings.ROCKETCHAT_AUTH_TOKEN,
@@ -46,19 +56,35 @@ def create_rocketchat_contact(user: User):
     }
     
     try:
-        search_params = {'email': user.email}
+        search_params = {'custom': f'{{"djangoUsername": "{user.username}"}}'}
         response = requests.get(search_url, headers=headers, params=search_params)
         response.raise_for_status()
         search_result = response.json()
-        
-        if not search_result.get('contact'):
-            print(f"Contact for {user.email} not found. Creating...")
+
+        # >> NEW LOGIC TO VERIFY EXACT MATCH <<
+        contact_exists_exactly = False
+        if search_result.get('contact'):
+            # The API found a partial match, now we check it precisely.
+            # Note: The API might return a single object or a list. This handles both.
+            contacts = search_result['contact']
+            if not isinstance(contacts, list):
+                contacts = [contacts]
+            
+            for contact in contacts:
+                custom_fields = contact.get('customFields', {})
+                if custom_fields.get('djangoUsername') == user.username:
+                    contact_exists_exactly = True
+                    break # Found an exact match, no need to check further
+
+        # Now, create the contact only if no exact match was found
+        if not contact_exists_exactly:
+            print(f"Contact for {user.username} not found with an exact match. Creating...")
             create_url = f"{settings.ROCKETCHAT_API_URL}/api/v1/omnichannel/contacts"
             
             payload = {
-                "name": f"{user.first_name} {user.last_name}",
+                "name": user.first_name,
                 "emails": [user.email],
-                # >> ADD THE CUSTOM FIELD DATA HERE <<
+                "phones": [user.username],
                 "customFields": {
                     "djangoUsername": user.username
                 }
@@ -66,12 +92,19 @@ def create_rocketchat_contact(user: User):
             
             create_response = requests.post(create_url, headers=headers, json=payload)
             create_response.raise_for_status()
-            print(f"Successfully created Rocket.Chat contact for {user.email}")
+            print(f"Successfully created Rocket.Chat contact for {user.username}")
         else:
-            print(f"Rocket.Chat contact for {user.email} already exists.")
+            print(f"Rocket.Chat contact for {user.username} already exists.")
 
     except requests.exceptions.RequestException as e:
-        print(f"ERROR: Could not create Rocket.Chat contact for {user.email}. Reason: {e}")
+        # >> THIS MODIFIED BLOCK GIVES US DETAILED ERRORS <<
+        error_message = f"ERROR: Could not process Rocket.Chat contact for {user.username}."
+        if e.response is not None:
+            # This will print the specific JSON error from Rocket.Chat
+            error_message += f" Reason: {e.response.json()}"
+        else:
+            error_message += f" Reason: {e}"
+        print(error_message)
 
 
 

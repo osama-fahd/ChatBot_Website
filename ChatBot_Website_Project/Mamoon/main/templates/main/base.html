@@ -155,16 +155,20 @@
 
 {% if request.user.is_authenticated %}
 <script type="text/javascript">
+    // The legacy API doesn't always need the RocketChat(function() { ... }) wrapper,
+    // but we use it to ensure the livechat object is ready.
     RocketChat(function() {
-        this.registerGuest({
-            name: "{{ request.user.first_name }} {{ request.user.last_name }}",
-            email: "{{ request.user.email }}",
-            
-            // >> ADD THE CUSTOM FIELD FOR THE LIVE SESSION HERE <<
+        // The legacy method to register a guest
+        RocketChat.livechat.registerGuest({
+            name: '{{ request.user.first_name }}',
+            email: '{{ request.user.email }}',
+            // For older APIs, custom fields are often passed under a 'customFields' key
             customFields: [
                 { key: 'djangoUsername', value: '{{ request.user.username }}', overwrite: true }
             ]
         });
+
+        console.log("Attempted to register guest using legacy API for:", "{{ request.user.username }}");
     });
 </script>
 {% endif %}

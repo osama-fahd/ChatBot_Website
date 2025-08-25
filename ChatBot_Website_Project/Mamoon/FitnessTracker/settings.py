@@ -27,7 +27,14 @@ SECRET_KEY = 'django-insecure-!h!g7+aig%0y_v6j)pu#i-i+o)mwg95_z)2b46_9uq=p&*5=ex
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+# =======================================
+# ROCKET.CHAT API CONFIGURATION
+# =======================================
+ROCKETCHAT_API_URL = "https://rocketchat-crv29-u37410.vm.elestio.app"
+ROCKETCHAT_AUTH_TOKEN = "pBz4X5_OApspeDulDHfI3iHtT2MFGqBwIb80wIKPGAw"
+ROCKETCHAT_USER_ID = "688b5484a357b2831cc4f2b6"
 
 
 # Application definition
