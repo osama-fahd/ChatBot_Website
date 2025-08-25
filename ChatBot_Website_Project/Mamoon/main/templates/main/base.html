@@ -40,7 +40,6 @@
                 {% url 'exercises:all_exercises_view' as all_exercises %}
                 {% url 'exercises:new_exercise_view' as new_exercise %}
 
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <!--               
@@ -48,13 +47,13 @@
                       <a {% if request.path == all_exercises %} class="nav-link text-warning bg-dark rounded-5 ps-sm-5 ps-lg-2" {% else %} class="nav-link" {% endif %} href="{{all_exercises}}">All Exercises</a>
                     </li> -->
 
-                    {% if request.user.is_staff %}
+                    <!-- {% if request.user.is_staff %}
                       <li class="nav-item">
                         <a {% if request.path == new_exercise %} class="nav-link text-warning bg-dark rounded-5 ps-sm-5 ps-lg-2" {% else %} class="nav-link" {% endif %} href="{{new_exercise}}">New Exercises</a>
                       </li>
-                    {% endif %}
+                    {% endif %} -->
 
-                    {% if request.user.is_authenticated or request.user.is_staff %}
+                    <!-- {% if request.user.is_authenticated or request.user.is_staff %}
                       <li class="nav-item">
                         <a {% if request.path == all_routines %} class="nav-link text-warning bg-dark rounded-5 ps-sm-5 ps-lg-2" {% else %} class="nav-link" {% endif %} href="{{all_routines}}">Your All Routines</a>
                       </li>
@@ -62,17 +61,17 @@
                       <li class="nav-item">
                         <a {% if request.path == new_routine %} class="nav-link text-warning bg-dark rounded-5 ps-sm-5 ps-lg-2" {% else %} class="nav-link" {% endif %} href="{{new_routine}}">New Routine</a>
                       </li>
-                    {% endif %}
+                    {% endif %} -->
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                       <a {% if request.path == contact_url %} class="nav-link text-primary bg-white rounded-5 ps-sm-5 ps-lg-2" {% else %} class="nav-link" {% endif %} href="{{contact_url}}">Contact Us</a>
-                    </li>
+                    </li> -->
                     {% if request.user.is_authenticated %}
                       <li class="nav-item">
                         <a class="nav-link" href="{% url 'accounts:log_out' %}">Log Out</a>
                       </li>
                     {% else %}
-                      <!-- <li class="nav-item dropdown">
+                      <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Sign up/ Sign in
                         </a>
@@ -80,7 +79,7 @@
                           <li><a class="dropdown-item" href="{% url 'accounts:sign_up' %}">Sign Up</a></li>
                           <li><a class="dropdown-item" href="{% url 'accounts:sign_in' %}?next={{request.path}}">Sign In</a></li>
                         </ul>
-                      </li> -->
+                      </li>
                     {% endif %}
 
                     {% if request.user.is_staff %}
@@ -139,23 +138,36 @@
     <footer class="p-4">
         <!-- <hr class="m-0"/> -->
         <section class="d-flex flex-column justify-content-center align-items-center gap-2">
-            <a href="{% url 'main:contact_view' %}">
+            <!-- <a href="{% url 'main:contact_view' %}">
                 <h2 class="text-center">CONTACT US</h2>
-            </a>
+            </a> -->
         </section>
-    </footer>
+</footer>
 
-  <!-- Start of Rocket.Chat Livechat Script -->
-	<script type="text/javascript">
-	(function(w, d, s, u) {
-		w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
-		var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
-		j.async = true; j.src = 'https://rocketchat-crv29-u37410.vm.elestio.app/livechat/rocketchat-livechat.min.js?_=201903270000';
-		h.parentNode.insertBefore(j, h);
-	})(window, document, 'script', 'https://rocketchat-crv29-u37410.vm.elestio.app/livechat');
-	</script>
-    
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+(function(w, d, s, u) {
+    w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+    var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+    j.async = true; j.src = 'https://rocketchat-crv29-u37410.vm.elestio.app/livechat/rocketchat-livechat.min.js?_=201903270000';
+    h.parentNode.insertBefore(j, h);
+})(window, document, 'script', 'https://rocketchat-crv29-u37410.vm.elestio.app/livechat');
+</script>
+
+{% if request.user.is_authenticated %}
+<script type="text/javascript">
+    RocketChat(function() {
+        this.registerGuest({
+            name: "{{ request.user.first_name }} {{ request.user.last_name }}",
+            email: "{{ request.user.email }}",
+            
+            // >> ADD THE CUSTOM FIELD FOR THE LIVE SESSION HERE <<
+            customFields: [
+                { key: 'djangoUsername', value: '{{ request.user.username }}', overwrite: true }
+            ]
+        });
+    });
+</script>
+{% endif %}
 
 </body>
 </html>

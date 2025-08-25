@@ -21,7 +21,7 @@ main {
     background-image: url('/static/images/Cover.png');
     background-size: cover;
     background-position:center;
-    background-repeat: repeat-y;
+    /* background-repeat: repeat-y; */
 }
 
 main {
@@ -151,10 +151,8 @@ footer a{
 @media (max-width: 992px) {
 
     main {
-        background-size: contain;
-        background-repeat:repeat-y;
+        background-size: cover;
+        /* background-repeat:repeat-y; */
     }
-
-
 }
 
